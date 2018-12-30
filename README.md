@@ -1,6 +1,6 @@
 # fury-ide
 
-*fury-ide* is an attempt to construct a [Fury](http://fury.build/) IDE environment.
+*fury-ide* is an attempt to construct a working [Fury](http://fury.build/) IDE environment.
 
 As it stands, the project source is fragmented across tens of "micro-libraries" and other tools, and there is
 no build framework available. Furthermore, the circular references and the directory structure does not allow
