@@ -1,5 +1,24 @@
+# stanard stuff
 target/
-fury-*/
 .idea
 *.iml
 .DS_Store
+# we don't need to version the cloned sub-modules
+contextual/
+escritoire/
+eucalyptus/
+exoskeleton/
+gastronomy/
+guillotine/
+impromptu/
+kaleidoscope/
+magnolia/
+mercator/
+mitigation/
+optometry/
+probation/
+fury/
+totalitarian
+# clone.sh creates these
+fury-*/
+nailgun/

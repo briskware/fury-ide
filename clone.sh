@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
+#
+# List of Propensive (https://github.com/propensive) libraries used by Fury.
+#
 PROPENSIVE_REPOS="contextual escritoire eucalyptus exoskeleton gastronomy guillotine impromptu kaleidoscope magnolia mercator mitigation optometry probation fury totalitarian"
 
-function cloneRepo() {
+#
+# Clones a GIT repository
+#
+# Usage: cloneGitRepo <Full GIT URL> <local name of the repo> <branch or tag desired>
+#
+function cloneGitRepo() {
   local gitUrl=$1
   local repoName=$2
   local branchOrTag=$3
@@ -36,6 +44,11 @@ function cloneRepo() {
   cd -
 }
 
+#
+# Downloads a standard published JAR from a Maven-like repository
+#
+# Usage: downloadMavenJar <reportUrl> <groupId> <artifact> <version>
+#
 function downloadMavenJar() {
   LIB_DIR="$(pwd)/fury-lib"
   mkdir -p ${LIB_DIR}
@@ -58,6 +71,11 @@ function downloadMavenJar() {
   fi
 }
 
+#
+# Makes a single standard Scala project under ./fury-build
+# by creating symbolic links to the actual source files scattered
+# across number of projects that have been checked out by calling the cloneGitRepo() function.
+#
 function makeLinks() {
   root=$(pwd) || exit 1
   linksRoot="${root}/fury-build"
@@ -90,11 +108,14 @@ function makeLinks() {
 function main() {
   for repo in ${PROPENSIVE_REPOS}; do
     local gitRepo="https://github.com/propensive/${repo}.git"
-    cloneRepo "${gitRepo}" "${repo}" "fury"
+    cloneGitRepo "${gitRepo}" "${repo}" "fury"
   done
-  cloneRepo "https://github.com/facebook/nailgun.git" "nailgun" "nailgun-all-0.9.3"
-  downloadMavenJar "http://repo1.maven.org/maven2" "net.java.dev.jna" "jna"          "5.2.0"
-  downloadMavenJar "http://repo1.maven.org/maven2" "net.java.dev.jna" "jna-platform" "5.2.0"
+  # Nailgun is required by Fury, using an older version as the code uses that one
+  cloneGitRepo     "https://github.com/facebook/nailgun.git"                    "nailgun"      "nailgun-all-0.9.3"
+  # Dependent libraries required by Nailgun
+  downloadMavenJar "http://repo1.maven.org/maven2"           "net.java.dev.jna" "jna"          "5.2.0"
+  downloadMavenJar "http://repo1.maven.org/maven2"           "net.java.dev.jna" "jna-platform" "5.2.0"
+  # Create file links to make the project appear as a single module
   makeLinks
 }
 
