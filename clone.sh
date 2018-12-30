@@ -36,7 +36,7 @@ function cloneGitRepo() {
     branch=$(git status --untracked-files=no --porcelain --branch | head -1) || exit 1
     tag=$(git describe --tag | head -1) || exit 1
     if [[ -z "${tag// }" ]]; then
-      tag="*** none ***"
+      tag="*none*"
     fi
     # Uncommitted changes in tracked files
     echo "Repo ${gitUrl} has uncommitted changes on branch ${branch} (tag ${tag})..."
