@@ -1,0 +1,5 @@
+target/
+fury-*/
+.idea
+*.iml
+.DS_Store
